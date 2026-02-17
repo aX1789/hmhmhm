@@ -26,8 +26,8 @@ while True:
             # print(yesterday)
             # print("JA JA")
             user_interest = row["interest"]
-
-            news_feed = NewsFeed(interests=user_interest, from_date=yesterday, to_date=today)
+            user_language = row["language"]
+            news_feed = NewsFeed(interests=user_interest, from_date=yesterday, to_date=today, language=user_language)
             email_body = news_feed.get_news()
             mail_contects = f"Hi {row['name']}\n\n See what's on about {user_interest} today!\n\n {email_body}"
 
