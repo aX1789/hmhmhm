@@ -26,11 +26,18 @@ class NewsFeed:
         )
 
         responce = requests.get(url)
+        if responce.status_code != 200:
+            return "Sorry, for today you won`t receive news, we have troubles"
         # print(responce, "\n\n")
         content_dict = responce.json()
+
+        if "articles" not in content_dict:
+            return "There is no news for you today, we had a trouble founding them"
         articles = content_dict["articles"]
 
         email_body = ""
+        if not articles:
+            return "There is no new news for you today"
         for article_dict in articles:
             email_body = email_body + article_dict["title"] + "\n" + article_dict["url"] + "\n"*2
 
