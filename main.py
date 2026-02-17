@@ -6,17 +6,21 @@ import time
 from config import ADMIN_EMAIL_PASSWORD, target_hour, target_minute
 from news import NewsFeed
 
-isemailsend = None
+todaysent = None
 while True:
     smt = False
-    if datetime.datetime.now().hour == target_hour and datetime.datetime.now().minute == target_minute:
+    thismoment = datetime.datetime.now()
+    today = datetime.date.today().isoformat()
+    target = datetime.time(target_hour, target_minute)
+    # if datetime.datetime.now().hour == target_hour and datetime.datetime.now().minute == target_minute:
+    if thismoment.time() >= target and todaysent != today:
         df = pd.read_excel("people.xlsx")
 
         for index, row in df.iterrows():
             # print(row, "\n")
             # print(row["interest"], "\n")
 
-            today = datetime.date.today().isoformat()
+            # today = datetime.date.today().isoformat()
             yesterday = (datetime.date.today() - datetime.timedelta(days=1)).isoformat()
             # print(today)
             # print(yesterday)
@@ -33,6 +37,7 @@ while True:
                 subject=f"Your {user_interest} news are ahead for today!",
                 contents=mail_contects,
             )
+        todaysent = today
         smt = True
     if smt:
         time.sleep(60)
