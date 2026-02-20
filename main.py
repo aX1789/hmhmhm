@@ -39,5 +39,4 @@ while True:
             )
         todaysent = today
         smt = True
-    if smt:
-        time.sleep(60)
+    time.sleep(60)
